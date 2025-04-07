@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khetro Property</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /*==================================================
+        * SLIDESHOW STYLES
+        ==================================================*/
+        /* Hide slides by default */
+        .mySlides {display: none;}
+        
+        /* Slideshow container styling */
+        .slideshow-container {
+            width: 100%;
+            position: relative;
+            margin: auto;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Image styling within slideshow */
+        .slideshow-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+        
+        /*==================================================
+        * NAVIGATION INDICATOR STYLES
+        ==================================================*/
+        /* The dots/bullets/indicators */
+        .dot {
+            height: 8px;
+            width: 8px;
+            margin: 0 4px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        
+        /* Active dot indicator */
+        .active {
+            background-color: #717171;
+        }
+        
+        /*==================================================
+        * ANIMATION STYLES
+        ==================================================*/
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        
+        /* Keyframes for fade animation */
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+        
+        /*==================================================
+        * NAVBAR STYLES
+        ==================================================*/
+        /* Base navbar styling */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+        
+        /* Navbar style when scrolled */
+        .navbar-scrolled {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /*==================================================
+        * HERO CONTENT STYLES
+        ==================================================*/
+        /* Hero content overlay positioning */
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 80%;
+        }
+        
+        /*==================================================
+        * HEADER STYLES
+        ==================================================*/
+        /* Main header container */
+        .site-header {
+            position: fixed;
+            width: 100%;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header bar styling */
+        .main-header-bar {
+            padding: 0.5rem 0;
+        }
+        
+        /* Container for header content */
+        .ast-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Flex container for header items */
+        .ast-flex {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Main header container layout */
+        .main-header-container {
+            justify-content: space-between;
+        }
+        
+        /* Logo image sizing */
+        .site-logo-img img {
+            max-height: 60px;
+            transition: all 0.3s ease;
+        }
+        
+        /*==================================================
+        * MENU STYLES
+        ==================================================*/
+        /* Main navigation menu */
+        .main-header-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Menu items */
+        .main-header-menu li {
+            position: relative;
+            margin: 0 15px;
+        }
+        
+        /* Menu links */
+        .main-header-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 0;
+            display: block;
+            position: relative;
+        }
+        
+        /* Underline animation for menu links */
+        .main-header-menu a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: white;
+            bottom: 5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        /* Hover effect for menu links */
+        .main-header-menu a:hover:after {
+            width: 100%;
+        }
+        
+        /*==================================================
+        * SUBMENU STYLES
+        ==================================================*/
+        /* Dropdown submenu */
+        .sub-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            list-style: none;
+            padding: 10px 0;
+            border-radius: 4px;
+            z-index: 100;
+        }
+        
+        /* Show submenu on hover */
+        .menu-item-has-children:hover .sub-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Submenu items */
+        .sub-menu li {
+            margin: 0;
+        }
+        
+        /* Submenu links */
+        .sub-menu a {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /*==================================================
+        * MOBILE MENU STYLES
+        ==================================================*/
+        /* Mobile menu button container */
+        .ast-mobile-menu-buttons {
+            display: none;
+        }
+        
+        /* Mobile menu toggle button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /*==================================================
+        * RESPONSIVE STYLES
+        ==================================================*/
+        @media (max-width: 768px) {
+            /* Hide desktop menu on mobile */
+            .ast-main-header-bar-alignment {
+                display: none;
+            }
+            
+            /* Show mobile menu buttons */
+            .ast-mobile-menu-buttons {
+                display: block;
+            }
+            
+            /* Show menu toggle button */
+            .menu-toggle {
+                display: block;
+            }
+            
+            /* Mobile menu styling */
+            .main-header-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.9);
+                padding: 20px;
+                display: none;
+            }
+            
+            /* Active mobile menu */
+            .main-header-menu.active {
+                display: flex;
+            }
+            
+            /* Mobile menu items */
+            .main-header-menu li {
+                margin: 10px 0;
+            }
+            
+            /* Mobile submenu */
+            .sub-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                padding-left: 20px;
+                background: transparent;
+            }
+            
+            /* Active mobile submenu */
+            .sub-menu.active {
+                display: block;
+            }
+            
+            /* Parent menu items with children */
+            .menu-item-has-children > a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+        /*==================================================
+        * RESPONSIVE STYLES
+        ==================================================*/
+        @media (max-width: 768px) {
+            /* Hide desktop menu on mobile */
+            .ast-main-header-bar-alignment {
+                display: none;
+            }
+            
+            /* Show mobile menu buttons */
+            .ast-mobile-menu-buttons {
+                display: block;
+            }
+            
+            /* Show menu toggle button */
+            .menu-toggle {
+                display: block;
+            }
+            
+            /* Mobile menu styling */
+            .main-header-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.9);
+                padding: 20px;
+                display: none;
+            }
+            
+            /* Active mobile menu */
+            .main-header-menu.active {
+                display: flex;
+            }
+            
+            /* Mobile menu items */
+            .main-header-menu li {
+                margin: 10px 0;
+            }
+            
+            /* Mobile submenu */
+            .sub-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                padding-left: 20px;
+                background: transparent;
+            }
+            
+            /* Active mobile submenu */
+            .sub-menu.active {
+                display: block;
+            }
+            
+            /* Parent menu items with children */
+            .menu-item-has-children > a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        
+        /*==================================================
+        * ABOUT SECTION STYLES
+        ==================================================*/
+        /* Aspect ratio container for responsive video */
+        .aspect-w-16 {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .aspect-w-16 iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* Group hover effect for buttons */
+        .group:hover .group-hover\:translate-x-1 {
+            transform: translateX(0.25rem);
+        }
+
+        /*==================================================
+        * SERVICES SECTION STYLES
+        ==================================================*/
+        /* Group hover effect for buttons */
+        .group:hover .group-hover\:translate-x-1 {
+            transform: translateX(0.25rem);
+        }
+        
+        /*==================================================
+        * GALLERY/RECENT WORKS STYLES
+        ==================================================*/
+        /* Image hover effects */
+        .transition-shadow {
+            transition: box-shadow 0.3s ease;
+        }
+        
+        /* Lightbox overlay (will be activated by JavaScript) */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        }
+    
+    </style>
+</head>
+<body class="font-sans">
+    <!--==================================================
+    * HEADER SECTION
+    * Contains the site logo and navigation menu
+    ==================================================-->
+    <header class="site-header ast-primary-submenu-animation-fade header-main-layout-1 ast-primary-menu-enabled ast-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemtype="https://schema.org/WPHeader" itemscope="itemscope" itemid="#masthead">
+        <div class="main-header-bar-wrap">
+            <div data-stick-support="on" data-stick-maxwidth="1343" data-stick-gutter="0">
+                <div class="main-header-bar">
+                    <div class="ast-container">
+                        <div class="ast-flex main-header-container">
+                            <!-- Site Logo -->
+                            <div class="site-branding">
+                                <div class="ast-site-identity" itemtype="https://schema.org/Organization" itemscope="itemscope">
+                                    <span class="site-logo-img">
+                                        <a href="#" class="custom-logo-link transparent-custom-logo" rel="home" itemprop="url">
+                                            <img width="309" height="84" src="https://khetrosthapati.com/wp-content/uploads/2020/03/khetrosthapati-logo.png" class="custom-logo" alt="khetrosthapati logo" loading="lazy">
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mobile Menu Button -->
+                            <div class="ast-mobile-menu-buttons">
+                                <div class="ast-button-wrap">
+                                    <button type="button" class="menu-toggle main-header-menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                                        <span class="screen-reader-text">Main Menu</span>
+                                        <span class="menu-toggle-icon">☰</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Desktop Navigation Menu -->
+                            <div class="ast-main-header-bar-alignment">
+                                <div class="main-header-bar-navigation">
+                                    <nav class="ast-flex-grow-1 navigation-accessibility" id="site-navigation" aria-label="Site Navigation" itemtype="https://schema.org/SiteNavigationElement" itemscope="itemscope">
+                                        <div class="main-navigation">
+                                            <ul id="primary-menu" class="main-header-menu ast-nav-menu ast-flex ast-justify-content-flex-end submenu-with-border astra-menu-animation-fade ast-mega-menu-enabled">
+                                                <!-- Home Menu Item -->
+                                                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item current_page_item">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">Home</span>
+                                                    </a>
+                                                </li>
+                                                <!-- Projects Menu Item -->
+                                                <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">Projects</span>
+                                                    </a>
+                                                </li>
+                                                <!-- Portfolio Menu Item -->
+                                                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">Portfolio</span>
+                                                    </a>
+                                                </li>
+                                                <!-- About Menu Item -->
+                                                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">About</span>
+                                                    </a>
+                                                </li>
+                                                <!-- Services Menu Item with Dropdown -->
+                                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children" aria-haspopup="true">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">Our Services</span>
+                                                        <span class="sub-arrow">▼</span>
+                                                    </a>
+                                                    <!-- Services Submenu -->
+                                                    <ul class="sub-menu">
+                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                            <a href="#" class="menu-link">
+                                                                <span class="menu-text">ARCHITECTURE</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                            <a href="#" class="menu-link">
+                                                                <span class="menu-text">3D VISUALIZATION</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                            <a href="#" class="menu-link">
+                                                                <span class="menu-text">INTERIOR DESIGN</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                            <a href="#" class="menu-link">
+                                                                <span class="menu-text">3D ANIMATION VIDEO</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="menu-item menu-item-type-custom menu-item-object-custom">
+                                                            <a href="#" class="menu-link">
+                                                                <span class="menu-text">LANDSCAPE DESIGN</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <!-- Contact Menu Item -->
+                                                <li class="menu-item menu-item-type-post_type menu-item-object-page">
+                                                    <a href="#" class="menu-link">
+                                                        <span class="menu-text">Contact</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--==================================================
+    * HERO SECTION
+    * Features a full-screen slideshow with overlay text
+    ==================================================-->
+    <section class="hero relative">
+        <!-- Slideshow Container -->
+        <div class="slideshow-container">
+            <!-- Slide 1 -->
+            <div class="mySlides fade">
+                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/01-1.jpg" alt="Property Image">
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="mySlides fade">
+                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/02.jpg" alt="Real Estate Image">
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="mySlides fade">
+                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/03.jpg" alt="Apartment Image">
+            </div>
+            
+            <!-- Slide 4 -->
+            <div class="mySlides fade">
+                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/04.jpg" alt="Apartment Image">
+            </div>
+            
+            <!-- Slide 5 -->
+            <div class="mySlides fade">
+                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/05.jpg" alt="Apartment Image">
+            </div>
+
+            <!-- Hero Content Overlay
+            <div class="hero-content">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">Find Your Dream Property</h1>
+                <p class="text-xl md:text-2xl text-white mb-8 drop-shadow-lg">Discover the perfect place to call home</p>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg">Explore Properties</a>
+            </div> -->
+        </div>
+        
+        <!-- Slideshow Navigation Dots -->
+        <div class="absolute bottom-8 left-0 right-0 z-10 text-center">
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+            <span class="dot"></span> 
+        </div>
+    </section>
+
+    <!--==================================================
+    * HEADER/NAVBAR JAVASCRIPT
+    * Controls mobile menu toggle and scroll effects
+    ==================================================-->
+    <script>
+        // Toggle mobile menu functionality
+        // Shows/hides the mobile menu when hamburger icon is clicked
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainHeaderMenu = document.querySelector('.main-header-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            // Toggle active class to show/hide menu
+            mainHeaderMenu.classList.toggle('active');
+            // Update aria-expanded attribute for accessibility
+            menuToggle.setAttribute('aria-expanded', 
+                menuToggle.getAttribute('aria-expanded') === 'false' ? 'true' : 'false'
+            );
+        });
+        
+        // Toggle submenu on mobile devices
+        // Allows opening/closing of dropdown menus on mobile
+        const menuItemsWithChildren = document.querySelectorAll('.menu-item-has-children > a');
+        
+        menuItemsWithChildren.forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Only apply this behavior on mobile screens
+                if (window.innerWidth <= 768) {
+                    e.preventDefault(); // Prevent default link behavior
+                    const subMenu = this.nextElementSibling;
+                    subMenu.classList.toggle('active'); // Show/hide submenu
+                }
+            });
+        });
+        
+        // Change header appearance on scroll
+        // Adds background and effects when page is scrolled
+        const header = document.querySelector('.site-header');
+        const logo = document.querySelector('.custom-logo');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                // Scrolled state - add background and effects
+                header.style.background = 'rgba(0, 0, 0, 0.7)';
+                header.style.backdropFilter = 'blur(10px)';
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                logo.style.maxHeight = '50px'; // Smaller logo when scrolled
+            } else {
+                // Top of page - transparent header
+                header.style.background = 'transparent';
+                header.style.backdropFilter = 'none';
+                header.style.boxShadow = 'none';
+                logo.style.maxHeight = '60px'; // Original logo size
+            }
+        });
+    </script>
+    
+    <!--==================================================
+    * SLIDESHOW JAVASCRIPT
+    * Controls automatic image rotation in hero section
+    ==================================================-->
+    <script>
+        let slideIndex = 0;
+        showSlides();
+        
+        // Function to control slideshow animation
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            
+            // Hide all slides
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            
+            // Increment slide index
+            slideIndex++;
+            
+            // Reset to first slide if at the end
+            if (slideIndex > slides.length) {slideIndex = 1}
+            
+            // Remove active class from all dots
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            // Show current slide and activate corresponding dot
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            
+            // Set timer for next slide transition (4 seconds)
+            setTimeout(showSlides, 4000);
+        }
+    </script>
+
+
+
+<!--================================================
+* ABOUT SECTION
+* Company information with video presentation
+==================================================-->
+<section class="py-16 bg-gray-100 relative" data-id="2d1834c" data-element_type="section">
+    <div class="elementor-background-overlay absolute inset-0 bg-opacity-10 bg-gray-200"></div>
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap -mx-4">
+            <!-- Left Column - Company Info -->
+            <div class="w-full md:w-1/2 px-4 mb-8 md:mb-0 relative">
+                <div class="bg-white p-8 rounded-lg shadow-lg relative h-full">
+                    <div class="elementor-background-overlay absolute inset-0 bg-opacity-5 bg-blue-100 rounded-lg"></div>
+                    <div class="relative z-10">
+                        <div class="mb-4">
+                            <h4 class="text-gray-600 text-lg font-medium">Established 2013</h4>
+                        </div>
+                        <div class="mb-6">
+                            <h2 class="text-3xl font-bold mb-4">TO CONVERT YOUR IDEAS TO LIFE</h2>
+                            <p class="text-gray-700 leading-relaxed">
+                                Khetro Sthapati is an architectural and 3D Visualization firm consists of experienced and talented Architects and 3D artists. We're here to assist you the best quality Architectural drawings and designing, Exterior &amp; Interior Design, 3D Modeling &amp; Visualization, 3D Animation with affordable prices.
+                            </p>
+                        </div>
+                        <div class="mb-6">
+                            <p class="text-gray-700">
+                                7+ years of experience in Architectural 2d floor plan designing, 3D Floor plan rendering, interior design, 3D visualization, 3D Animation videos.
+                            </p>
+                        </div>
+                        <div>
+                            <a href="#" class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300 group">
+                                <span>Free Quote</span>
+                                <i class="fas fa-angle-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Video -->
+            <div class="w-full md:w-1/2 px-4">
+                <div class="bg-white p-8 rounded-lg shadow-lg h-full">
+                    <div class="aspect-w-16 aspect-h-9 mb-6">
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/LVNolh3shCA?feature=oembed&amp;start&amp;end&amp;wmode=opaque&amp;loop=0&amp;controls=1&amp;mute=0&amp;rel=0&amp;modestbranding=0" title="YouTube Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <h6 class="text-gray-700 text-sm leading-relaxed">
+                        Architectural Drawings, Interior Design &amp; 3D Visualization Services with Affordable Prices for Realtor &amp; Real Estate
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--==================================================
+* RECENT WORKS SECTION
+* Gallery of recent projects with images
+==================================================-->
+<section class="py-16 bg-white relative" data-id="219c4302" data-element_type="section">
+    <div class="container mx-auto px-4">
+        <!-- Section Title -->
+        <div class="mb-12 text-center">
+            <h2 class="text-3xl font-bold">SOME RECENT WORKS</h2>
+        </div>
+        
+        <!-- Gallery Grid -->
+        <div class="flex flex-wrap -mx-4">
+            <!-- Column 1 -->
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/1.-Moulovibazar.jpg" data-lightbox="gallery" data-title="Modern Duplex House Design, Moulovibazar">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/elementor/thumbs/1.-Moulovibazar-ppjdc99oglv7q2xbwke60rhp8ty1jaxa827vrvuz10.jpg" 
+                             alt="Modern Duplex House Design, Moulovibazar"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/4.-Terrace-house-scaled.jpg" data-lightbox="gallery" data-title="Terrace House, Sylhet">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/4.-Terrace-house-500x281.jpg" 
+                             alt="Terrace House, Sylhet"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+            </div>
+            
+                        <!-- Column 2 -->
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/06/2.-Charulota.jpg" data-lightbox="gallery" data-title="Charulota">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/elementor/thumbs/2.-Charulota-pq0wnx5q5icjgg1r3df55djkxkx527wm6urppggkcw.jpg" 
+                             alt="Charulota"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+
+            </div>
+            
+            <!-- Column 3 -->
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/5.-Mosque-Design-scaled.jpg" data-lightbox="gallery" data-title="Mosque Design">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/5.-Mosque-Design-500x281.jpg" 
+                             alt="Mosque Design"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/6.-Masterbed-1-scaled.jpg" data-lightbox="gallery" data-title="Modern Master Bedroom interior, Dhaka">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/6.-Masterbed-1-1280x720.jpg" 
+                             alt="Modern Master Bedroom interior, Dhaka"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Second Row of Gallery -->
+        <div class="flex flex-wrap -mx-4 mt-8">
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/9.-3D-Floor-plan.jpeg" data-lightbox="gallery" data-title="3D Floor plan">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/9.-3D-Floor-plan.jpeg" 
+                             alt="3D Floor plan"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/3.-Hotel-suite-interior-scaled.jpg" data-lightbox="gallery" data-title="Hotel Suite Interior Design">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/elementor/thumbs/3.-Hotel-suite-interior-scaled-ppjejnhfz99rpzw4ibo44t9sj822w9766ugvdrinro.jpg" 
+                             alt="Hotel Suite Interior Design"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Second Column - Second Row -->
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/06/Jalalpr-2.jpg" data-lightbox="gallery" data-title="Jalalpr 2">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/06/Jalalpr-2-800x450.jpg" 
+                             alt="Jalalpr 2"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/10.-Beanibazar.jpg" data-lightbox="gallery" data-title="Modern Vacation House, Beanibazar">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/10.-Beanibazar-800x450.jpg" 
+                             alt="Modern Vacation House, Beanibazar"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Third Column - Second Row -->
+            <div class="w-full md:w-1/3 px-4 mb-8">
+                <div class="mb-8">
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/8.-Netrokan-resized.jpg" data-lightbox="gallery" data-title="Duplex House Design, Netrokona">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/8.-Netrokan-resized.jpg" 
+                             alt="Duplex House Design, Netrokona"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+                <div>
+                    <a href="https://khetrosthapati.com/wp-content/uploads/2022/05/11.-Bedroom-scaled.jpg" data-lightbox="gallery" data-title="Bedroom Interior Render">
+                        <img src="https://khetrosthapati.com/wp-content/uploads/2022/05/11.-Bedroom-800x450.jpg" 
+                             alt="Bedroom Interior Render"
+                             class="w-full h-auto rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- "See More" Button -->
+    <div class="text-center mt-8">
+        <a href="https://khetrosthapati.com/portfolio/" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+            <span class="text-lg font-medium">See More</span>
+            <i class="ml-2 fas fa-hand-point-up"></i>
+        </a>
+    </div>
+</section>       
+
+
+    <!--==================================================
+    * LIGHTBOX JAVASCRIPT
+    * Enables image gallery popup functionality
+    ==================================================-->
+    <script>
+        // Simple lightbox implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all gallery links
+            const galleryLinks = document.querySelectorAll('a[data-lightbox="gallery"]');
+            
+            // Create lightbox elements
+            const lightboxOverlay = document.createElement('div');
+            lightboxOverlay.className = 'lightbox-overlay';
+            
+            const lightboxContent = document.createElement('div');
+            lightboxContent.className = 'lightbox-content';
+            
+            const lightboxImage = document.createElement('img');
+            const lightboxCaption = document.createElement('div');
+            lightboxCaption.className = 'text-white text-center mt-4';
+            
+            lightboxContent.appendChild(lightboxImage);
+            lightboxContent.appendChild(lightboxCaption);
+            lightboxOverlay.appendChild(lightboxContent);
+            document.body.appendChild(lightboxOverlay);
+            
+            // Add click event to gallery links
+            galleryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Set image source and caption
+                    lightboxImage.src = this.href;
+                    lightboxCaption.textContent = this.getAttribute('data-title') || '';
+                    
+                    // Show lightbox
+                    lightboxOverlay.classList.add('active');
+                });
+            });
+            
+            // Close lightbox when clicking outside the image
+            lightboxOverlay.addEventListener('click', function(e) {
+                if (e.target === lightboxOverlay) {
+                    lightboxOverlay.classList.remove('active');
+                }
+            });
+            
+            // Close on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightboxOverlay.classList.contains('active')) {
+                    lightboxOverlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+<!--==================================================
+* WHAT WE DO SECTION WITH SERVICES ICONS
+* Highlights the company's services and expertise
+==================================================-->
+<section class="py-0 relative" data-id="8f6bc5a" data-element_type="section" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}" style="background-color: #020315; padding: 20px 0px 0px 0px; transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;">
+    <div class="elementor-background-overlay absolute inset-0 bg-opacity-0 bg-black"></div>
+    <div class="container mx-auto px-4">
+        <!-- Section Title -->
+        <div class="text-center mb-2">
+            <h4 class="text-gray-200 text-lg font-medium mb-2">Every Space Counts</h4>
+            <h2 class="text-4xl font-bold text-white">WHAT WE DO!</h2>
+        </div>
+        
+        <!-- Services Icons Container - Positioned to overlap -->
+        <div class="relative" style="margin-top: 45px;">
+            <div class="bg-white rounded-lg shadow-lg ">
+
+                
+                <!-- Services Icons Grid -->
+                <div class="flex flex-wrap -mx-4">
+                    <!-- Architecture -->
+                    <div class=" md:w-1/5 px-4 mb-8">
+                        <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition duration-300">
+                            <div class="mb-4">
+                                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/Architecture.png" 
+                                     alt="Architecture" 
+                                     class="mx-auto h-24 w-auto">
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800">Architecture</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Visualization -->
+                    <div class="w-full md:w-1/5 px-4 mb-8">
+                        <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition duration-300">
+                            <div class="mb-4">
+                                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/3D-viz.png" 
+                                     alt="3D Visualization" 
+                                     class="mx-auto h-24 w-auto">
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800">3D Visualization</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- 3D Animation -->
+                    <div class="w-full md:w-1/5 px-4 mb-8">
+                        <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition duration-300">
+                            <div class="mb-4">
+                                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/animation.png" 
+                                     alt="3D Animation" 
+                                     class="mx-auto h-24 w-auto">
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800">3D Animation</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Interior Design -->
+                    <div class="w-full md:w-1/5 px-4 mb-8">
+                        <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition duration-300">
+                            <div class="mb-4">
+                                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/Interior.png" 
+                                     alt="Interior Design" 
+                                     class="mx-auto h-24 w-auto">
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800">Interior Design</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Landscape Design -->
+                    <div class="w-full md:w-1/5 px-4 mb-8">
+                        <div class="text-center p-4 hover:bg-gray-50 rounded-lg transition duration-300">
+                            <div class="mb-4">
+                                <img src="https://khetrosthapati.com/wp-content/uploads/2022/04/Landscape.png" 
+                                     alt="Landscape Design" 
+                                     class="mx-auto h-24 w-auto">
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800">Landscape Design</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==================================================
+* CONTACT CTA SECTION
+* Simple call to action for contacting about services
+==================================================-->
+<section class="py-16 bg-white text-gray-800">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-full mb-8">
+                <h2 class="text-3xl font-bold mb-4">TELL US WHAT YOU NEED</h2>
+                <p class="text-xl max-w-3xl mx-auto">We are ready to serve you for any kind of architectural design that you need for your property. Contact us today to get your work done within a very short time.</p>
+            </div>
+            <div class="w-full text-center">
+                <a href="https://khetrosthapati.com/contact/" class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300 group">
+                    <span>CONTACT US</span>
+                    <i class="fas fa-angle-right ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--==================================================
+* COUNTER STATS SECTION
+* Displays key company statistics with animated counters
+==================================================-->
+<section class="py-16 bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap -mx-4">
+            <!-- Years Experience Counter -->
+            <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                <div class="text-center p-6 hover:bg-gray-800 rounded-lg transition duration-300">
+                    <div class="counter-number-wrapper mb-2">
+                        <span class="text-5xl font-bold counter-number" data-count="9">0</span>
+                    </div>
+                    <div class="text-xl font-medium text-gray-300">+ YEARS EXPERIENCE</div>
+                </div>
+            </div>
+            
+            <!-- Projects Counter -->
+            <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                <div class="text-center p-6 hover:bg-gray-800 rounded-lg transition duration-300">
+                    <div class="counter-number-wrapper mb-2">
+                        <span class="text-5xl font-bold counter-number" data-count="250">0</span>
+                    </div>
+                    <div class="text-xl font-medium text-gray-300">+ PROJECTS</div>
+                </div>
+            </div>
+            
+            <!-- Renderings Counter -->
+            <div class="w-full md:w-1/4 px-4 mb-8 md:mb-0">
+                <div class="text-center p-6 hover:bg-gray-800 rounded-lg transition duration-300">
+                    <div class="counter-number-wrapper mb-2">
+                        <span class="text-5xl font-bold counter-number" data-count="2200">0</span>
+                    </div>
+                    <div class="text-xl font-medium text-gray-300">+ RENDERINGS</div>
+                </div>
+            </div>
+            
+            <!-- Satisfied Clients Counter -->
+            <div class="w-full md:w-1/4 px-4">
+                <div class="text-center p-6 hover:bg-gray-800 rounded-lg transition duration-300">
+                    <div class="counter-number-wrapper mb-2">
+                        <span class="text-5xl font-bold counter-number" data-count="99">0</span>
+                    </div>
+                    <div class="text-xl font-medium text-gray-300">% SATISFIED CLIENTS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Counter Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.counter-number');
+            const speed = 200; // The lower the faster
+            
+            // Intersection Observer to start counting when visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.getAttribute('data-count'));
+                        let count = 0;
+                        
+                        // Determine increment based on target value
+                        const increment = target > 100 ? Math.ceil(target / (speed / 10)) : 1;
+                        
+                        const updateCount = () => {
+                            count += increment;
+                            
+                            // Format with commas for thousands
+                            const formattedCount = count.toLocaleString();
+                            counter.innerText = formattedCount;
+                            
+                            // Stop when target is reached
+                            if (count < target) {
+                                setTimeout(updateCount, speed / 10);
+                            } else {
+                                counter.innerText = target.toLocaleString();
+                            }
+                        };
+                        
+                        updateCount();
+                        observer.unobserve(counter); // Stop observing once animation starts
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            // Observe all counter elements
+            counters.forEach(counter => {
+                observer.observe(counter);
+            });
+        });
+    </script>
+</section>
+
+
+<!--==================================================
+* CONTACT FORM SECTION
+* Contact form with company information
+==================================================-->
+<section class="py-16 bg-cover bg-center relative" style="background-image: url('https://khetrosthapati.com/wp-content/uploads/2022/04/01-1.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+    <div class="container mx-auto px-4 relative z-10">
+        <div class="flex flex-wrap -mx-4">
+            <!-- Left Column - Contact Info -->
+            <div class="w-full md:w-1/2 px-4 mb-8 md:mb-0">
+                <h2 class="text-3xl font-bold text-white mb-4">Contact Us</h2>
+                <p class="text-white text-lg mb-8">
+                    Thanks for considering contacting <b>Khetro Sthapati</b>. We will get back to you within 24 hours. Your project will be treated with great care and professionalism!
+                </p>
+            </div>
+            
+            <!-- Right Column - Contact Form -->
+            <div class="w-full md:w-1/2 px-4">
+                <form id="contactForm" class="contact-form">
+                    <!-- Name Field -->
+                    <div class="mb-4">
+                        <input type="text" name="name" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Name" required>
+                    </div>
+                    
+                    <!-- Email and Phone in 2 columns -->
+                    <div class="flex flex-wrap -mx-2 mb-4">
+                        <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
+                            <input type="email" name="email" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Email Address" required>
+                        </div>
+                        <div class="w-full md:w-1/2 px-2">
+                            <input type="tel" name="phone" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Phone Number" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Message Field -->
+                    <div class="mb-4">
+                        <textarea name="message" rows="6" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Your Message" required></textarea>
+                    </div>
+                    
+                    <!-- Terms and Conditions Checkbox -->
+                    <div class="mb-6">
+                        <label class="flex items-center text-white">
+                            <input type="checkbox" name="terms" class="mr-2" required>
+                            <span>
+                                I have read and agree to the <a href="#" class="text-orange-500 hover:underline">Terms and Conditions</a> and <a href="#" class="text-orange-500 hover:underline">Privacy Policy</a>
+                            </span>
+                        </label>
+                    </div>
+                    
+                                       <!-- Submit Button -->
+                    <div>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+                            <span class="mr-2">Submit</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<footer>
+    <div class="text-center bg-gray-500 p-4">
+        <span class="block text-sm text-center text-white">© 2025 khetrosthapati. All Rights Reserved.
+        </span>
+    
+        <ul class="flex justify-center mt-5 space-x-5">
+            <li>
+                <a href="#" class="text-white hover:text-blue-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="text-white hover:text-blue-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="text-white hover:text-blue-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                            d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
+                        </path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="text-white hover:text-blue-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="text-white hover:text-blue-100">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+</body>
+</html>
