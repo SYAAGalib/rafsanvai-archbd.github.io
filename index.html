@@ -1154,65 +1154,60 @@
 * CONTACT FORM SECTION
 * Contact form with company information
 ==================================================-->
+
+<!--==================================================
+* CONTACT FORM SECTION
+* Contact form with company information
+==================================================-->
 <section class="py-16 bg-cover bg-center relative" style="background-image: url('https://khetrosthapati.com/wp-content/uploads/2022/04/01-1.jpg');">
-    <div class="absolute inset-0 bg-black bg-opacity-70"></div>
-    <div class="container mx-auto px-4 relative z-10">
-        <div class="flex flex-wrap -mx-4">
-            <!-- Left Column - Contact Info -->
-            <div class="w-full md:w-1/2 px-4 mb-8 md:mb-0">
-                <h2 class="text-3xl font-bold text-white mb-4">Contact Us</h2>
-                <p class="text-white text-lg mb-8">
-                    Thanks for considering contacting <b>Khetro Sthapati</b>. We will get back to you within 24 hours. Your project will be treated with great care and professionalism!
-                </p>
+    <!-- Right Column - Contact Form -->
+    <div class="w-full md:w-1/2 px-4">
+        <form id="contactForm" class="contact-form pageclip-form" action="https://send.pageclip.co/HIsaz4VmAyi2ICtgUCppzxNIO6qlVvpS/contact-form" method="post">
+            <!-- Name Field -->
+            <div class="mb-4">
+                <input type="text" name="name" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Name" required>
             </div>
             
-            <!-- Right Column - Contact Form -->
-            <div class="w-full md:w-1/2 px-4">
-                <form id="contactForm" class="contact-form">
-                    <!-- Name Field -->
-                    <div class="mb-4">
-                        <input type="text" name="name" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Name" required>
-                    </div>
-                    
-                    <!-- Email and Phone in 2 columns -->
-                    <div class="flex flex-wrap -mx-2 mb-4">
-                        <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
-                            <input type="email" name="email" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Email Address" required>
-                        </div>
-                        <div class="w-full md:w-1/2 px-2">
-                            <input type="tel" name="phone" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Phone Number" required>
-                        </div>
-                    </div>
-                    
-                    <!-- Message Field -->
-                    <div class="mb-4">
-                        <textarea name="message" rows="6" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Your Message" required></textarea>
-                    </div>
-                    
-                    <!-- Terms and Conditions Checkbox -->
-                    <div class="mb-6">
-                        <label class="flex items-center text-white">
-                            <input type="checkbox" name="terms" class="mr-2" required>
-                            <span>
-                                I have read and agree to the <a href="#" class="text-orange-500 hover:underline">Terms and Conditions</a> and <a href="#" class="text-orange-500 hover:underline">Privacy Policy</a>
-                            </span>
-                        </label>
-                    </div>
-                    
-                                       <!-- Submit Button -->
-                    <div>
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
-                            <span class="mr-2">Submit</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div>
-                </form>
+            <!-- Email and Phone in 2 columns -->
+            <div class="flex flex-wrap -mx-2 mb-4">
+                <div class="w-full md:w-1/2 px-2 mb-4 md:mb-0">
+                    <input type="email" name="email" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Email Address" required>
+                </div>
+                <div class="w-full md:w-1/2 px-2">
+                    <input type="tel" name="phone" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Phone Number" required>
+                </div>
             </div>
-        </div>
+            
+            <!-- Message Field -->
+            <div class="mb-4">
+                <textarea name="message" rows="6" class="w-full px-4 py-2 bg-white border border-gray-300 rounded" placeholder="*Your Message" required></textarea>
+            </div>
+            
+            <!-- Terms and Conditions Checkbox -->
+            <div class="mb-6">
+                <label class="flex items-center text-white">
+                    <input type="checkbox" name="terms" class="mr-2" required>
+                    <span>
+                        I have read and agree to the <a href="#" class="text-orange-500 hover:underline">Terms and Conditions</a> and <a href="#" class="text-orange-500 hover:underline">Privacy Policy</a>
+                    </span>
+                </label>
+            </div>
+            
+            <!-- Submit Button -->
+            <div>
+                <button type="submit" class="pageclip-form__submit bg-blue-500 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 flex items-center">
+                    <span class="mr-2">Submit</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </form>
     </div>
 </section>
+<!-- Pageclip form script -->
+<script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
+<link rel="stylesheet" href="https://s.pageclip.co/v1/pageclip.css" media="screen">
 
 
 
